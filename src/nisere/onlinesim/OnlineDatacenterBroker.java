@@ -71,17 +71,22 @@ public class OnlineDatacenterBroker extends DatacenterBroker {
 			} else { // submit to the specific vm
 				vm = VmList.getById(getVmsCreatedList(), cloudlet.getVmId());
 				if (vm == null) { // vm was not created
-					if(!Log.isDisabled()) {				    
-					    Log.printConcatLine(CloudSim.clock(), ": ", getName(), ": Postponing execution of cloudlet ",
-							cloudlet.getCloudletId(), ": bount VM not available");
+					if(!Log.isDisabled()) {
+						String sembarang = Double.toString(CloudSim.clock()) + ": " + getName() + ": Postponing execution of cloudlet " +
+								Integer.toString(cloudlet.getCloudletId()) + ": bount VM not available";
+						Log.printLine(sembarang);
+//					    Log.printConcatLine(CloudSim.clock(), ": ", getName(), ": Postponing execution of cloudlet ",
+//							cloudlet.getCloudletId(), ": bount VM not available");
 					}
 					continue;
 				}
 			}
 
 			if (!Log.isDisabled()) {
-			    Log.printConcatLine(CloudSim.clock(), ": ", getName(), ": Sending cloudlet ",
-					cloudlet.getCloudletId(), " to VM #", vm.getId());
+				String sembarang = Double.toString(CloudSim.clock()) + ": "+ getName() + ": Sending cloudlet "+
+						Integer.toString(cloudlet.getCloudletId()) + " to VM #" + Integer.toString(vm.getId());
+				Log.printLine(sembarang);
+				//			    Log.printConcatLine();
 			}
 			
 			cloudlet.setVmId(vm.getId());
@@ -147,11 +152,16 @@ public class OnlineDatacenterBroker extends DatacenterBroker {
 	protected void processCloudletReturn(SimEvent ev) {
        Cloudlet cloudlet = (Cloudlet) ev.getData();
        getCloudletReceivedList().add(cloudlet);
-       Log.printConcatLine(CloudSim.clock(), ": ", getName(), ": Cloudlet ", cloudlet.getCloudletId(),
-                       " received");
+	   String str = Double.toString(CloudSim.clock()) + ": " + getName() + ": Cloudlet " + Integer.toString(cloudlet.getCloudletId()) +
+				" received";
+	   Log.printLine(str);
+//       Log.printConcatLine(CloudSim.clock(), ": ", getName(), ": Cloudlet ", cloudlet.getCloudletId(),
+//                       " received");
        cloudletsSubmitted--;
        if (getCloudletList().size() == 0 && cloudletsSubmitted == 0) { // all cloudlets executed
-           Log.printConcatLine(CloudSim.clock(), ": ", getName(), ": All Cloudlets executed. Finishing...");
+           String cld = Double.toString(CloudSim.clock()) + ": " + getName() + ": All Cloudlets executed. Finishing...";
+		   Log.printLine(cld);
+//		   Log.printConcatLine(CloudSim.clock(), ": ", getName(), ": All Cloudlets executed. Finishing...");
            clearDatacenters();
            finishExecution();
        } // else some cloudlets haven't finished yet
